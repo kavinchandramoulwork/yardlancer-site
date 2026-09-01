@@ -1,0 +1,187 @@
+:root {
+  --background: #121214;
+  --surface: #1c1c1e;
+  --surface-elevated: #232326;
+  --border: rgba(91, 200, 255, 0.25);
+  --blue: #5bc8ff;
+  --blue-glow: rgba(91, 200, 255, 0.6);
+  --gold: #d4af37;
+  --text-primary: #ffffff;
+  --text-secondary: #9a9a9e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+
+.wordmark {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.wordmark span {
+  color: var(--blue);
+}
+
+nav.site-nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav.site-nav a {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+nav.site-nav a:hover {
+  color: var(--blue);
+}
+
+main {
+  flex: 1;
+}
+
+/* Landing page */
+
+.hero {
+  padding: 40px 0 8px;
+}
+
+.hero h1 {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 20px;
+}
+
+.hero p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 46ch;
+  margin: 0 0 12px;
+}
+
+.hero p.lede {
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+/* Legal / support document pages */
+
+.doc-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 16px;
+}
+
+.draft-badge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.doc-heading {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 26px 0 8px;
+}
+
+.doc-paragraph {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+
+.support-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 8px;
+}
+
+.support-email {
+  color: var(--blue);
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.support-email:hover {
+  text-decoration: underline;
+}
+
+footer.site-footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer.site-footer nav {
+  display: flex;
+  gap: 18px;
+}
+
+footer.site-footer a {
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+footer.site-footer a:hover {
+  color: var(--blue);
+}
+
+.footer-note {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
