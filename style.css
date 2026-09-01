@@ -150,8 +150,8 @@ main {
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
-  color: var(--white);
-  background: var(--navy);
+  color: var(--charcoal);
+  background: var(--gold);
   border: none;
   border-radius: 10px;
   padding: 12px 20px;
@@ -160,7 +160,7 @@ main {
 }
 
 .waitlist-row button:hover {
-  background: var(--sky);
+  background: #d1922f;
 }
 
 .waitlist-row button:disabled {
@@ -189,10 +189,10 @@ main {
   position: relative;
   width: 240px;
   height: 490px;
-  background: var(--navy);
+  background: linear-gradient(160deg, var(--sky), var(--gold));
   border-radius: 34px;
   padding: 10px;
-  box-shadow: 0 30px 60px -20px rgba(11, 61, 102, 0.35);
+  box-shadow: 0 30px 60px -20px rgba(26, 26, 26, 0.3);
   opacity: 0;
   animation: phoneIn 0.6s ease-out both;
 }
@@ -296,7 +296,7 @@ main {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid var(--sky);
+  border: 2px solid var(--gold);
   opacity: 0;
   animation: pulseRing 0.9s ease-out both;
   animation-delay: 1.15s;
@@ -310,7 +310,7 @@ main {
   background: var(--white);
   border-radius: 14px;
   padding: 14px 16px;
-  box-shadow: 0 10px 24px -8px rgba(11, 61, 102, 0.25);
+  box-shadow: 0 10px 24px -8px rgba(26, 26, 26, 0.2);
   opacity: 0;
   animation: cardUp 0.5s ease-out both;
   animation-delay: 1.35s;
@@ -334,7 +334,7 @@ main {
   font-family: "Space Grotesk", sans-serif;
   font-weight: 600;
   font-size: 15px;
-  color: var(--navy);
+  color: var(--gold);
 }
 
 .gig-card-distance {
