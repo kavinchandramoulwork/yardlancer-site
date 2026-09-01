@@ -61,7 +61,8 @@ header.site-header {
 
 nav.site-nav {
   display: flex;
-  gap: 28px;
+  flex-wrap: wrap;
+  gap: 12px 28px;
 }
 
 nav.site-nav a {
@@ -178,6 +179,60 @@ main {
   color: #b3401a;
 }
 
+.features {
+  margin-top: 72px;
+  padding-top: 48px;
+  border-top: 1px solid var(--hairline);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px 56px;
+}
+
+.feature {
+  max-width: 46ch;
+}
+
+.feature-mark {
+  display: block;
+  width: 32px;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+.feature-mark-navy {
+  background: var(--navy);
+}
+
+.feature-mark-gold {
+  background: var(--gold);
+}
+
+.feature-mark-sky {
+  background: var(--sky);
+}
+
+.feature h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin: 0 0 8px;
+}
+
+.feature p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--charcoal-soft);
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .features {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
 /* Phone mockup */
 
 .hero-visual {
@@ -221,6 +276,9 @@ main {
 .map-bg {
   position: absolute;
   inset: 0;
+  opacity: 0;
+  animation: mapIn 0.5s ease-out both;
+  animation-delay: 0.35s;
 }
 
 .map-block {
@@ -342,6 +400,15 @@ main {
   color: var(--charcoal-soft);
 }
 
+@keyframes mapIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes phoneIn {
   from {
     opacity: 0;
@@ -395,6 +462,7 @@ main {
 
 @media (prefers-reduced-motion: reduce) {
   .phone-frame,
+  .map-bg,
   .map-pin,
   .pulse-ring,
   .gig-card {
@@ -602,7 +670,12 @@ footer.site-footer {
 
 footer.site-footer nav {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+footer.site-footer nav a {
+  white-space: nowrap;
 }
 
 footer.site-footer a {
