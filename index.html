@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script src="waitlist.js" defer></script>
 </head>
 <body>
   <div class="page">
@@ -27,6 +28,15 @@
           <h1>Real jobs. Real neighborhood.</h1>
           <p class="lede">Yardlancer connects teens with local work, one gig at a time.</p>
           <p>Yard work, dog walking, tutoring, and more — matched with neighbors nearby. Built for teens looking to earn, with safety and parent-linking features for families along the way.</p>
+
+          <form class="waitlist-form" id="waitlist-form">
+            <label class="waitlist-label" for="waitlist-email">Get notified when Yardlancer launches</label>
+            <div class="waitlist-row">
+              <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" required autocomplete="email" />
+              <button type="submit">Notify me</button>
+            </div>
+            <p class="waitlist-status" id="waitlist-status" role="status" hidden></p>
+          </form>
         </div>
 
         <div class="hero-visual">

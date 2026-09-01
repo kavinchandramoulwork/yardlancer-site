@@ -111,6 +111,73 @@ main {
   line-height: 1.5;
 }
 
+.waitlist-form {
+  margin-top: 28px;
+}
+
+.waitlist-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--charcoal-soft);
+  margin-bottom: 10px;
+}
+
+.waitlist-row {
+  display: flex;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.waitlist-row input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--charcoal);
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.waitlist-row input:focus {
+  outline: none;
+  border-color: var(--sky);
+}
+
+.waitlist-row button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--navy);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.waitlist-row button:hover {
+  background: var(--sky);
+}
+
+.waitlist-row button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.waitlist-status {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--navy);
+}
+
+.waitlist-status.waitlist-status-error {
+  color: #b3401a;
+}
+
 /* Phone mockup */
 
 .hero-visual {
@@ -344,12 +411,129 @@ main {
   .hero {
     grid-template-columns: 1fr;
   }
-  .hero-visual {
-    order: -1;
-  }
   .phone-frame {
     width: 200px;
     height: 410px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 28px 20px 56px;
+  }
+
+  header.site-header {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-bottom: 36px;
+  }
+
+  nav.site-nav {
+    gap: 18px;
+  }
+
+  .hero {
+    gap: 32px;
+  }
+
+  .hero-copy h1 {
+    font-size: 30px;
+    max-width: none;
+  }
+
+  .hero-copy p.lede {
+    font-size: 17px;
+  }
+
+  .hero-copy p,
+  .hero-copy p.lede {
+    max-width: none;
+  }
+
+  .waitlist-row {
+    flex-direction: column;
+    max-width: none;
+  }
+
+  .waitlist-row button {
+    width: 100%;
+  }
+
+  /* A 240px phone with the desktop's map detail reads as an oversized,
+     fussy graphic that eats the whole first screen before any real copy
+     shows -- shrunk and simplified rather than scaled 1:1, and the two
+     smaller decorative map blocks are dropped so what's left doesn't
+     look cluttered at this size. */
+  .hero-visual {
+    justify-content: flex-start;
+  }
+
+  .phone-frame {
+    width: 148px;
+    height: 300px;
+    border-radius: 24px;
+    padding: 7px;
+  }
+
+  .phone-frame::before {
+    top: 14px;
+    width: 40px;
+  }
+
+  .phone-screen {
+    border-radius: 17px;
+  }
+
+  .map-block.b2,
+  .map-block.b3 {
+    display: none;
+  }
+
+  .map-block.b1 {
+    width: 100px;
+    height: 60px;
+    top: 24px;
+  }
+
+  .map-road.r1 {
+    height: 220px;
+    left: 60px;
+  }
+
+  .map-road.r2 {
+    width: 190px;
+    top: 130px;
+  }
+
+  .map-pin {
+    top: 78px;
+    left: 66px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .pulse-ring {
+    top: 81px;
+    left: 69px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .gig-card {
+    left: 8px;
+    right: 8px;
+    bottom: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+
+  .gig-card-title,
+  .gig-card-price {
+    font-size: 13px;
+  }
+
+  .gig-card-distance {
+    font-size: 11px;
   }
 }
 
