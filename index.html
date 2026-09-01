@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Yardlancer</title>
   <meta name="description" content="Yardlancer connects teens with local work, one gig at a time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page">
     <header class="site-header">
-      <a class="wordmark" href="./">YARD<span>LANCER</span></a>
+      <a class="wordmark" href="./">Yard<span>lancer</span></a>
       <nav class="site-nav">
         <a href="privacy/">Privacy</a>
         <a href="terms/">Terms</a>
@@ -20,9 +23,41 @@
 
     <main>
       <section class="hero">
-        <h1>Real jobs. Real neighborhood.</h1>
-        <p class="lede">Yardlancer connects teens with local work, one gig at a time.</p>
-        <p>Yard work, dog walking, tutoring, and more — matched with neighbors nearby, with safety features built in for families along the way.</p>
+        <div class="hero-copy">
+          <h1>Real jobs. Real neighborhood.</h1>
+          <p class="lede">Yardlancer connects teens with local work, one gig at a time.</p>
+          <p>Yard work, dog walking, tutoring, and more — matched with neighbors nearby. Built for teens looking to earn, with safety and parent-linking features for families along the way.</p>
+        </div>
+
+        <div class="hero-visual">
+          <div class="phone-frame" aria-hidden="true">
+            <div class="phone-screen">
+              <div class="map-bg">
+                <div class="map-block b1"></div>
+                <div class="map-block b2"></div>
+                <div class="map-block b3"></div>
+                <div class="map-road r1"></div>
+                <div class="map-road r2"></div>
+              </div>
+
+              <div class="pulse-ring"></div>
+              <div class="map-pin">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 22s7-7.58 7-13A7 7 0 0 0 5 9c0 5.42 7 13 7 13z" fill="#0B3D66" />
+                  <circle cx="12" cy="9" r="2.6" fill="#F7F9FB" />
+                </svg>
+              </div>
+
+              <div class="gig-card">
+                <div class="gig-card-row">
+                  <span class="gig-card-title">Yard Work</span>
+                  <span class="gig-card-price">$25</span>
+                </div>
+                <span class="gig-card-distance">0.4 mi away</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
