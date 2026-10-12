@@ -208,6 +208,31 @@ main {
   display: none !important;
 }
 
+/* The real app screenshot in a plain device frame: dark bezel, soft shadow,
+   no overlays. The frame's corner radii depict hardware, so they sit outside
+   the 4/8/999px UI scale. */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.device {
+  margin: 0;
+  width: 260px;
+  max-width: 100%;
+  padding: 8px;
+  background: var(--ink);
+  border-radius: 34px;
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.3);
+}
+
+.device img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 26px;
+}
+
 .features {
   margin-top: 72px;
   padding-top: 48px;
@@ -254,6 +279,10 @@ main {
   .hero {
     grid-template-columns: 1fr;
   }
+
+  .device {
+    width: 220px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -296,6 +325,10 @@ main {
 
   .waitlist-row button {
     width: 100%;
+  }
+
+  .device {
+    width: 200px;
   }
 }
 
