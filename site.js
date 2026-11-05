@@ -11,7 +11,7 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function markCurrentPage() {
-    document.querySelectorAll('.site-nav a').forEach((link) => {
+    document.querySelectorAll('.site-nav a, .menu-links a').forEach((link) => {
       if (link.getAttribute('href') === window.location.pathname) {
         link.setAttribute('aria-current', 'page');
       }
@@ -194,6 +194,97 @@
     });
   }
 
+  // The intro phones on Teens and Neighbors settle in once, as they enter view.
+  function setUpEntrances() {
+    const items = document.querySelectorAll('.settle');
+    if (reduceMotion || items.length === 0) return;
+
+    const seen = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        seen.unobserve(entry.target);
+      });
+    });
+    items.forEach((item) => seen.observe(item));
+  }
+
+  // Teens: on wide screens one phone stays pinned while the steps scroll past
+  // it. CSS sticky does the pinning, so the browser keeps full control of the
+  // scroll; this only swaps the screen. Phones, short screens and reduced
+  // motion keep the plain stacked steps, which is also the no-script layout.
+  function setUpStory() {
+    const story = document.querySelector('.story');
+    if (!story || reduceMotion) return;
+
+    const wide = window.matchMedia('(min-width: 768px) and (min-height: 600px)');
+    const steps = [...story.querySelectorAll('.story-step')];
+    let screens = [];
+
+    const show = (index) => {
+      screens.forEach((screen, i) => {
+        screen.classList.toggle('is-active', i === index);
+        screen.setAttribute('aria-hidden', String(i !== index));
+      });
+    };
+
+    const buildStage = () => {
+      const stage = document.createElement('div');
+      stage.className = 'phone story-stage';
+      const holder = document.createElement('div');
+      holder.className = 'story-screens';
+      screens = steps.map((step) => {
+        const screen = document.createElement('div');
+        screen.className = 'story-screen';
+        screen.append(...step.querySelector('.phone').cloneNode(true).childNodes);
+        screen.querySelectorAll('img').forEach((img) => {
+          img.loading = 'eager';
+        });
+        holder.append(screen);
+        return screen;
+      });
+      stage.append(holder);
+      story.append(stage);
+      show(0);
+
+      const centerLine = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) show(steps.indexOf(entry.target));
+          });
+        },
+        { rootMargin: '-50% 0px -50% 0px' }
+      );
+      steps.forEach((step) => centerLine.observe(step));
+    };
+
+    const applyLayout = () => {
+      if (wide.matches && screens.length === 0) buildStage();
+      story.classList.toggle('is-pinned', wide.matches);
+    };
+
+    wide.addEventListener('change', applyLayout);
+    applyLayout();
+  }
+
+  // <details> opens by itself. Closing has no browser animation, so the answer
+  // fades out first. With reduced motion it just closes.
+  function setUpQuestions() {
+    if (reduceMotion) return;
+
+    document.querySelectorAll('.question').forEach((question) => {
+      question.querySelector('summary').addEventListener('click', (event) => {
+        if (!question.open) return;
+        event.preventDefault();
+        question.classList.add('is-closing');
+        setTimeout(() => {
+          question.classList.remove('is-closing');
+          question.open = false;
+        }, 250);
+      });
+    });
+  }
+
   function applyAppStoreSwitch() {
     if (!APP_STORE_URL) return;
 
@@ -218,4 +309,7 @@
   setUpWaitlistLinks();
   setUpWaitlistSuccess();
   setUpVideos();
+  setUpEntrances();
+  setUpStory();
+  setUpQuestions();
 })();

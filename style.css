@@ -29,6 +29,7 @@
   --s128: 128px;
 
   --text-hero: clamp(2.75rem, 1.35rem + 5.6vw, 5.5rem);
+  --text-page: clamp(2.5rem, 1.7rem + 3.4vw, 4.5rem);
   --text-section: clamp(1.875rem, 1.35rem + 2.1vw, 3.25rem);
   --text-body: clamp(1.0625rem, 0.99rem + 0.3vw, 1.1875rem);
   --text-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
@@ -69,6 +70,10 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
   margin: 0;
   background: var(--mist);
   color: var(--ink);
@@ -82,6 +87,11 @@ body.is-locked {
   left: 0;
   right: 0;
   overflow: hidden;
+}
+
+/* A short page still ends on the footer, not on a strip of background. */
+main {
+  flex: 1 0 auto;
 }
 
 img,
@@ -132,6 +142,7 @@ h3 {
 
 p {
   max-width: 62ch;
+  text-wrap: pretty;
 }
 
 a {
@@ -226,6 +237,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
+  flex: none;
   height: var(--header);
   color: var(--mist);
 }
@@ -1032,7 +1044,607 @@ body[data-hero] .site-header {
   }
 }
 
+/* Inner pages: the opening section */
+.intro {
+  overflow: hidden;
+  padding-top: var(--s64);
+}
+
+.intro-plain {
+  padding-bottom: var(--s96);
+}
+
+.intro-inner {
+  display: grid;
+  gap: var(--s48);
+}
+
+.intro h1 {
+  font-size: var(--text-page);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+
+.intro-plain h1 {
+  max-width: 18ch;
+}
+
+.intro-copy p {
+  margin-top: var(--s16);
+  color: var(--sage);
+}
+
+/* The section crops the phone, so it reads as rising out of the page. */
+.intro .phone {
+  --width: min(272px, 68vw);
+  width: var(--width);
+  margin-inline: auto;
+  margin-bottom: calc(var(--width) * -0.72);
+}
+
+@media (min-width: 768px) {
+  .intro-inner {
+    grid-template-columns: 1fr auto;
+    gap: var(--s64);
+    align-items: center;
+  }
+
+  .intro-plain .intro-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .intro .phone {
+    --width: 300px;
+    margin-bottom: calc(var(--width) * -0.56);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The failsafe shows the phone even if the script never arrives. */
+  .js .settle {
+    opacity: 0;
+    transform: translateY(var(--s12));
+    transition:
+      opacity 0.6s var(--ease),
+      transform 0.6s var(--ease);
+    animation: settle-failsafe 0s linear 3s forwards;
+  }
+
+  .js .settle.is-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+@keyframes settle-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Shared blocks for the inner pages */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s48);
+}
+
+.split p + p {
+  margin-top: var(--s16);
+}
+
+.split .section-title {
+  margin-bottom: var(--s24);
+}
+
+@media (min-width: 768px) {
+  .split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s64);
+    align-items: center;
+  }
+}
+
+.split-phone {
+  width: 208px;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .split-phone {
+    width: 272px;
+  }
+}
+
+.phone-pair {
+  display: flex;
+  justify-content: center;
+  gap: var(--s16);
+}
+
+.phone-pair .phone {
+  flex: 0 1 208px;
+  min-width: 0;
+}
+
+.phone-pair .phone:last-child {
+  margin-top: var(--s48);
+}
+
+/* Keeps lines short without moving the block off the page's left edge. */
+.narrow > * {
+  max-width: 720px;
+}
+
+.statements {
+  display: grid;
+  gap: var(--s24);
+}
+
+.statements li {
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.statements .quiet {
+  color: var(--sage);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* A real sequence, so these keep their numbers. */
+.numbered {
+  display: grid;
+  gap: var(--s24);
+  counter-reset: step;
+}
+
+.numbered li {
+  display: grid;
+  grid-template-columns: var(--s32) 1fr;
+  counter-increment: step;
+}
+
+.numbered li::before {
+  content: counter(step) ".";
+  color: var(--deep);
+  font-weight: 700;
+}
+
+.numbered + p {
+  margin-top: var(--s32);
+}
+
+@media (min-width: 1024px) {
+  .numbered-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s48);
+  }
+
+  .numbered-row li {
+    grid-template-columns: 1fr;
+    gap: var(--s8);
+    align-content: start;
+  }
+}
+
+/* Teens: the gig story. Stacked by default; the script pins it on wide screens. */
+.story-steps {
+  display: grid;
+  gap: var(--s48);
+  counter-reset: step;
+}
+
+.story-step {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--s24);
+  align-items: center;
+  counter-increment: step;
+}
+
+.story-step h3 {
+  font-size: clamp(1.375rem, 1.1rem + 1.1vw, 2.25rem);
+  letter-spacing: -0.01em;
+}
+
+.story-step h3::before {
+  content: counter(step) ". ";
+}
+
+.story-step p {
+  margin-top: var(--s8);
+  color: var(--stone);
+}
+
+.story-step .phone {
+  box-shadow: none;
+}
+
+.story-stage {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .story-steps {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s64);
+  }
+}
+
+.story.is-pinned {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s64);
+  align-items: start;
+}
+
+.story.is-pinned .story-steps {
+  display: block;
+}
+
+.story.is-pinned .story-step {
+  display: flex;
+  align-items: center;
+  min-height: 72vh;
+}
+
+.story.is-pinned .story-step > .phone {
+  display: none;
+}
+
+.story.is-pinned .story-stage {
+  position: sticky;
+  top: calc(var(--header) + var(--s32));
+  display: block;
+  width: min(300px, calc((100vh - var(--header) - var(--s64)) * 0.462));
+}
+
+.story-screens {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.story-screen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.story-screen.is-active {
+  opacity: 1;
+}
+
+/* Teens: "This is the job." */
+.job {
+  position: relative;
+  background: var(--evergreen);
+  color: var(--mist);
+}
+
+.job .clip {
+  width: 100%;
+  max-height: 100vh;
+  max-height: 100svh;
+  aspect-ratio: 9 / 16;
+}
+
+.job-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Tuned by measuring the real frames, the same way as the Home hero. */
+  background: linear-gradient(to bottom, rgb(14 23 16 / 62%) 0, rgb(14 23 16 / 58%) 34%, rgb(14 23 16 / 0%) 64%);
+}
+
+.job-copy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding-top: var(--s48);
+}
+
+.job-copy p {
+  margin-top: var(--s8);
+}
+
+@media (max-height: 500px) {
+  /* A landscape phone puts the line further down the clip, so the scrim goes even. */
+  .job-scrim {
+    background: rgb(14 23 16 / 60%);
+  }
+}
+
+@media (min-width: 768px) {
+  .job .clip {
+    aspect-ratio: 16 / 9;
+  }
+
+  .job-copy {
+    padding-top: var(--s64);
+  }
+}
+
+/* Parents: what we do, what we don't. The page's one bold moment. */
+.ledger {
+  display: grid;
+  gap: var(--s16);
+}
+
+.ledger-col {
+  padding: var(--s24);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+}
+
+.ledger-not {
+  border-color: var(--evergreen);
+  background: var(--evergreen);
+}
+
+.ledger h3 {
+  margin-bottom: var(--s16);
+  font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  letter-spacing: -0.01em;
+}
+
+.ledger li {
+  padding-block: var(--s12);
+  border-top: 1px solid var(--line);
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  line-height: 1.35;
+}
+
+.tips {
+  margin-top: var(--s48);
+}
+
+.tips h3 {
+  margin-bottom: var(--s8);
+}
+
+.tips li + li {
+  margin-top: var(--s4);
+}
+
+@media (min-width: 768px) {
+  .ledger {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s24);
+  }
+
+  .ledger-col {
+    padding: var(--s32);
+  }
+}
+
+/* Parents: questions */
+.draft-note {
+  display: inline-block;
+  margin-bottom: var(--s24);
+  padding: var(--s4) var(--s12);
+  border: 1px solid var(--stone);
+  border-radius: var(--radius-pill);
+  color: var(--stone);
+  font-size: var(--text-small);
+}
+
+.question {
+  border-top: 1px solid var(--line);
+}
+
+.question:last-of-type {
+  border-bottom: 1px solid var(--line);
+}
+
+.question summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s16);
+  min-height: var(--s64);
+  padding-block: var(--s12);
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.question summary::-webkit-details-marker {
+  display: none;
+}
+
+.question summary::after {
+  content: "+";
+  flex: none;
+  color: var(--deep);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 0.25s var(--ease);
+}
+
+.question[open]:not(.is-closing) summary::after {
+  transform: rotate(45deg);
+}
+
+.answer {
+  padding-bottom: var(--s24);
+  color: var(--stone);
+}
+
+.question[open] .answer {
+  animation: answer-in 0.25s var(--ease) both;
+}
+
+.question.is-closing .answer {
+  animation: answer-out 0.25s var(--ease) both;
+}
+
+@keyframes answer-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--s8) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes answer-out {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--s8) * -1));
+  }
+}
+
+/* Neighbors: the toggle. Real radio buttons drive it, so the keyboard and screen
+   readers work without any script, and each one is described by its own text. */
+.tier {
+  position: relative;
+  display: grid;
+  gap: var(--s24);
+}
+
+.tier-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.tier-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+  width: min(100%, 360px);
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+}
+
+.tier-options label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--s48);
+  padding-inline: var(--s16);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#tier-quick:checked ~ .tier-options [for="tier-quick"] {
+  background: var(--deep);
+  color: var(--paper);
+}
+
+#tier-premium:checked ~ .tier-options [for="tier-premium"] {
+  background: var(--evergreen);
+  color: var(--sun);
+}
+
+#tier-quick:focus-visible ~ .tier-options [for="tier-quick"],
+#tier-premium:focus-visible ~ .tier-options [for="tier-premium"] {
+  outline: 2px solid var(--deep);
+  outline-offset: 2px;
+}
+
+.tier-texts,
+.tier-phones {
+  display: grid;
+}
+
+.tier-texts > *,
+.tier-phones > * {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s var(--ease),
+    visibility 0s linear 0.25s;
+}
+
+#tier-quick:checked ~ .tier-texts .is-quick,
+#tier-quick:checked ~ .tier-phones .is-quick,
+#tier-premium:checked ~ .tier-texts .is-premium,
+#tier-premium:checked ~ .tier-phones .is-premium {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.tier-texts p {
+  font-size: clamp(1.375rem, 1.1rem + 1.1vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.tier-phones .phone {
+  width: 208px;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .tier {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto auto 1fr;
+    gap: var(--s24) var(--s64);
+  }
+
+  .tier-options {
+    grid-row: 2;
+  }
+
+  .tier-texts {
+    grid-row: 3;
+  }
+
+  .tier-phones {
+    grid-column: 2;
+    grid-row: 1 / 5;
+  }
+
+  .tier-phones .phone {
+    width: 272px;
+  }
+}
+
 /* Document pages: Trust, Privacy, Terms, Support */
+.doc-wrap {
+  max-width: calc(720px + var(--gutter) * 2);
+}
+
+.doc-head {
+  padding-block: var(--s64);
+}
+
+.doc-head .draft-badge {
+  margin-block: var(--s16) 0;
+  color: var(--lawn);
+}
+
+.doc-body {
+  padding-block: var(--s48) var(--s96);
+}
+
+.doc-body > .doc-heading:first-child {
+  margin-top: 0;
+}
+
 .doc-title {
   font-size: var(--text-section);
   font-weight: 700;
@@ -1073,6 +1685,12 @@ body[data-hero] .site-header {
 .support-email {
   font-weight: 600;
   overflow-wrap: anywhere;
+}
+
+.support-card .support-email {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 /* Calm mode: nothing moves, everything still reads. */
