@@ -1,426 +1,1094 @@
-/* Palette and radius scale are copied from the app's constants/theme.js
-   (lightTheme). Keep them in sync by hand, same as the legal text. */
+/* Colors and radii are copied from the app's constants/theme.js. Keep them in
+   sync by hand, same as the legal text. Spacing uses only the scale below. */
 :root {
-  --white: #ffffff;
-  --ink: #16241a; /* textPrimary */
-  --text-secondary: #5c6b60;
-  --surface: #f3f7f4;
-  --green-100: #dceedd;
-  --green-400: #4c9a5d; /* the app's field/card border */
-  --green-700: #1f5c33; /* primary */
-  --on-primary: #ffffff;
-  --danger: #b3261e;
+  --evergreen: #0e1710; /* darkTheme.background */
+  --card: #16231a; /* darkTheme.surface */
+  --lawn: #7fd08a; /* darkTheme.green700: on dark only, never text on light */
+  --deep: #1f5c33; /* lightTheme.green700: links and buttons on light */
+  --mist: #f3f7f4; /* lightTheme.surface */
+  --paper: #ffffff; /* lightTheme.background */
+  --ink: #16241a; /* textPrimary on light */
+  --stone: #5c6b60; /* textSecondary on light */
+  --sage: #9bafa0; /* textSecondary on dark */
+  --sun: #d4af37; /* Premium gold: mainly for Premium, as in the app */
+  --line: #4c9a5d; /* the app's field and card border */
 
   --radius-control: 4px; /* buttons, inputs */
-  --radius-card: 8px; /* cards, sheets */
-  --radius-pill: 999px; /* badges and tags only */
+  --radius-card: 8px; /* cards, panels */
+  --radius-pill: 999px; /* chips only */
+
+  --s4: 4px;
+  --s8: 8px;
+  --s12: 12px;
+  --s16: 16px;
+  --s24: 24px;
+  --s32: 32px;
+  --s48: 48px;
+  --s64: 64px;
+  --s96: 96px;
+  --s128: 128px;
+
+  --text-hero: clamp(2.75rem, 1.35rem + 5.6vw, 5.5rem);
+  --text-section: clamp(1.875rem, 1.35rem + 2.1vw, 3.25rem);
+  --text-body: clamp(1.0625rem, 0.99rem + 0.3vw, 1.1875rem);
+  --text-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --header: 52px;
+  --gutter: var(--s24);
+  --section: var(--s96);
+  --focus: var(--deep);
 }
 
-* {
+@media (min-width: 768px) {
+  :root {
+    --gutter: var(--s32);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --section: var(--s128);
+  }
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header) + var(--s16));
 }
 
 body {
-  background: var(--white);
+  margin: 0;
+  background: var(--mist);
   color: var(--ink);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.55;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+
+body.is-locked {
+  position: fixed;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+img,
+video,
+svg {
+  display: block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 h1,
 h2,
-.wordmark {
-  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+  padding: 0;
 }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--green-700);
+ul,
+ol {
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: var(--text-section);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-size: var(--text-body);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+p {
+  max-width: 62ch;
+}
+
+a {
+  color: var(--deep);
+  text-underline-offset: 3px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
-.page {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 40px 32px 72px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.on-dark {
+  --focus: var(--lawn);
+  background: var(--evergreen);
+  color: var(--mist);
 }
 
-header.site-header {
+.on-dark a:not(.button) {
+  color: var(--lawn);
+}
+
+.wrap {
+  width: 100%;
+  max-width: calc(1120px + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section);
+}
+
+/* Two light sections in a row share one gap instead of stacking two. */
+.section:not(.on-dark) + .section:not(.on-dark) {
+  padding-top: 0;
+}
+
+.section-title {
+  margin-bottom: var(--s48);
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--s8);
+  left: var(--s8);
+  z-index: 40;
+  padding: var(--s12) var(--s16);
+  border-radius: var(--radius-control);
+  background: var(--paper);
+  color: var(--deep);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--s48);
+  padding: var(--s12) var(--s24);
+  border: 0;
+  border-radius: var(--radius-control);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-lawn {
+  background: var(--lawn);
+  color: var(--evergreen);
+}
+
+.button-deep {
+  background: var(--deep);
+  color: var(--paper);
+}
+
+/* Header. On Home it sits over the hero and is transparent until the visitor
+   scrolls past it; everywhere else it's solid from the start. The solid layer
+   is a pseudo-element so the change animates opacity, not background. */
+.site-header {
+  --focus: var(--lawn);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--header);
+  color: var(--mist);
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--evergreen);
+  transition: opacity 0.2s ease;
+}
+
+body[data-hero] .site-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+
+.js body[data-hero] .site-header:not(.is-solid)::before {
+  opacity: 0;
+}
+
+.site-header-inner {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 56px;
+  gap: var(--s24);
+  height: 100%;
 }
 
-/* Mirrors the app's WelcomeStep wordmark: uppercase, heavy, wide-tracked,
-   single tone. The app draws it in near-white because it sits on video; on
-   this white page it takes the app's primary green instead. */
 .wordmark {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--green-700);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-right: auto;
+  color: var(--mist);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   text-decoration: none;
 }
 
-.wordmark span {
+.site-nav {
+  display: none;
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--mist);
+  font-size: var(--text-small);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+.header-cta {
+  display: none;
+  min-height: 44px;
+  padding-block: var(--s8);
+  padding-inline: var(--s16);
+  font-size: var(--text-small);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-right: calc(var(--s12) * -1);
+  padding: 0;
+  border: 0;
+  background: none;
   color: inherit;
+  cursor: pointer;
 }
 
-nav.site-nav {
+@media (min-width: 768px) {
+  .site-nav {
+    display: flex;
+    gap: var(--s24);
+  }
+
+  .header-cta {
+    display: inline-flex;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}
+
+/* Phone menu */
+.menu {
+  --focus: var(--lawn);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0 var(--gutter) var(--s32);
+  border: 0;
+  background: var(--evergreen);
+  color: var(--mist);
+  overscroll-behavior: contain;
+}
+
+.menu[open] {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px 28px;
+  flex-direction: column;
+  animation: sheet-in 0.3s var(--ease) both;
 }
 
-nav.site-nav a {
-  color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
+.menu::backdrop {
+  background: var(--evergreen);
 }
 
-nav.site-nav a:hover {
-  color: var(--green-700);
+.menu-top {
+  display: flex;
+  align-items: center;
+  height: var(--header);
+  margin-bottom: var(--s24);
 }
 
-main {
+.menu-links {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
-/* ---------- Landing page ---------- */
-
-.hero {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 56px;
+.menu-links a {
+  display: flex;
   align-items: center;
-  padding: 24px 0 16px;
+  min-height: var(--s64);
+  border-bottom: 1px solid var(--card);
+  color: var(--mist);
+  font-size: var(--text-section);
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.hero-copy h1 {
-  font-size: 40px;
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s16));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Video component: the poster is plain HTML, so it shows instantly and stays
+   as the whole picture with reduced motion. The script adds the video on top. */
+.clip {
+  position: relative;
+  overflow: hidden;
+  background: var(--evergreen);
+}
+
+.clip img,
+.clip video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clip video {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.clip.is-playing video {
+  opacity: 1;
+}
+
+.clip-toggle {
+  --focus: var(--lawn);
+  position: absolute;
+  right: var(--gutter);
+  bottom: var(--s16);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--evergreen);
+  color: var(--mist);
+  cursor: pointer;
+}
+
+/* Phone frame: a plain CSS outline for real screenshots. Radii are percentages
+   so the frame keeps its shape at any size. */
+.phone {
+  aspect-ratio: 1170 / 2532;
+  padding: 2.2%;
+  border-radius: 13% / 6%;
+  background: #060a07;
+  box-shadow: 0 var(--s16) var(--s48) rgb(14 23 16 / 28%);
+}
+
+.on-dark .phone,
+.door-teens .phone {
+  box-shadow: 0 0 0 1px rgb(243 247 244 / 18%);
+}
+
+.phone img,
+.phone-empty {
+  width: 100%;
+  height: 100%;
+  border-radius: 11.5% / 5.3%;
+  object-fit: cover;
+}
+
+.phone-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s4);
+  padding: var(--s8);
+  background: var(--card);
+  color: var(--sage);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* Home hero */
+.hero {
+  --focus: var(--lawn);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--evergreen);
+  color: var(--mist);
+}
+
+.hero .clip {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Tuned by measuring the real frames: the top band keeps the header at AA over
+     the bright sky, the lower band keeps the hero text at AA. */
+  background:
+    linear-gradient(to bottom, rgb(14 23 16 / 68%) 0, rgb(14 23 16 / 58%) 56px, rgb(14 23 16 / 0%) 160px),
+    linear-gradient(to top, rgb(14 23 16 / 54%) 0%, rgb(14 23 16 / 50%) 40%, rgb(14 23 16 / 42%) 62%, rgb(14 23 16 / 0%) 86%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding-top: calc(var(--header) + var(--s32));
+  padding-bottom: var(--s96);
+}
+
+.hero h1 {
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+
+.hero-line {
+  margin-top: var(--s16);
+  max-width: 36ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s12) var(--s24);
+  margin-top: var(--s32);
+}
+
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--mist);
   font-weight: 600;
-  line-height: 1.2;
-  color: var(--ink);
-  margin: 0 0 20px;
-  max-width: 12ch;
 }
 
-.hero-copy p {
-  font-size: 16px;
-  color: var(--text-secondary);
-  max-width: 42ch;
-  margin: 0 0 12px;
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--s24);
+  z-index: 2;
+  margin-left: -12px;
+  color: var(--mist);
+  transition: opacity 0.3s ease;
 }
 
-.hero-copy p.lede {
+.hero.is-scrolled .scroll-hint {
+  opacity: 0;
+}
+
+.hero h1,
+.hero-line {
+  animation: rise 0.6s var(--ease) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s16));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-height: 500px) {
+  /* A landscape phone puts the text on open sky, so the scrim goes even. */
+  .hero-scrim {
+    background: rgb(14 23 16 / 72%);
+  }
+
+  .hero h1 {
+    font-size: 2.75rem;
+  }
+
+  .hero-content {
+    padding-bottom: var(--s32);
+  }
+
+  .scroll-hint {
+    display: none;
+  }
+}
+
+/* Home: three doors */
+.doors {
+  display: flex;
+  gap: var(--s16);
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.doors::-webkit-scrollbar {
+  display: none;
+}
+
+.door {
+  position: relative;
+  display: flex;
+  flex: 0 0 80%;
+  flex-direction: column;
+  min-height: 460px;
+  padding: var(--s24);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper);
   color: var(--ink);
-  font-size: 19px;
-  line-height: 1.5;
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+
+.door h3 {
+  font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  letter-spacing: -0.01em;
+}
+
+.door p {
+  margin-top: var(--s8);
+  color: var(--stone);
+}
+
+.door-go {
+  margin-top: var(--s12);
+  color: var(--deep);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.door:focus-visible {
+  outline-offset: -4px;
+}
+
+.door .phone {
+  position: absolute;
+  width: 62%;
+  box-shadow: 0 var(--s8) var(--s32) rgb(14 23 16 / 22%);
+}
+
+/* The door crops the phone, so a placeholder's label has to sit near the top. */
+.door .phone-empty {
+  justify-content: flex-start;
+  padding-top: var(--s48);
+}
+
+.door-teens {
+  --focus: var(--lawn);
+  border-color: var(--evergreen);
+  background: var(--evergreen);
+  color: var(--mist);
+}
+
+.door-teens .door-go {
+  color: var(--lawn);
+}
+
+.door-teens p {
+  color: var(--sage);
+}
+
+.door-teens .phone {
+  left: 19%;
+  top: 176px;
+}
+
+.door-parents .phone {
+  right: -8%;
+  top: 208px;
+}
+
+.door-neighbors .phone {
+  left: -8%;
+  top: 208px;
+}
+
+@media (min-width: 768px) {
+  .doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s24);
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+
+  .door {
+    min-height: 448px;
+    padding: var(--s32);
+  }
+
+  .door-teens {
+    grid-column: 1 / 3;
+    min-height: 368px;
+  }
+
+  .door-teens .phone {
+    left: auto;
+    right: var(--s64);
+    top: var(--s32);
+    width: 240px;
+  }
+
+  .door-parents .phone,
+  .door-neighbors .phone {
+    top: 224px;
+  }
+
+  .door-parents .phone {
+    right: var(--s32);
+  }
+
+  .door-neighbors .phone {
+    left: var(--s32);
+  }
+}
+
+@media (min-width: 1024px) {
+  .doors {
+    grid-template-columns: 5fr 6fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .door {
+    min-height: 272px;
+  }
+
+  .door-teens {
+    grid-column: auto;
+    grid-row: 1 / 3;
+    min-height: 568px;
+  }
+
+  .door-teens .phone {
+    left: 50%;
+    right: auto;
+    top: 176px;
+    width: 300px;
+    margin-left: -150px;
+  }
+
+  .door-parents p,
+  .door-neighbors p {
+    max-width: 24ch;
+  }
+
+  .door .phone-empty {
+    justify-content: center;
+    padding-top: var(--s8);
+  }
+
+  .door-parents .phone,
+  .door-neighbors .phone {
+    width: 156px;
+  }
+
+  .door-parents .phone {
+    left: auto;
+    right: var(--s32);
+    top: var(--s32);
+  }
+
+  .door-neighbors {
+    padding-left: calc(156px + var(--s64));
+  }
+
+  .door-neighbors .phone {
+    left: var(--s32);
+    top: -96px;
+  }
+}
+
+@media (hover: hover) and (min-width: 1024px) {
+  .door {
+    transition: transform 0.2s var(--ease);
+  }
+
+  .door:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Home: a gig in four steps. A real sequence, so the numbers stay. */
+.steps {
+  display: grid;
+  gap: var(--s24);
+  counter-reset: step;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: var(--s24);
+  align-items: center;
+  counter-increment: step;
+}
+
+.step h3::before {
+  content: counter(step) ". ";
+}
+
+.step p {
+  margin-top: var(--s4);
+  color: var(--stone);
+}
+
+.step .phone {
+  box-shadow: none;
+}
+
+.steps-more {
+  margin-top: var(--s48);
+}
+
+.steps-more a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .steps {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s32);
+  }
+
+  .step {
+    grid-template-columns: 1fr;
+    align-content: start;
+    align-items: start;
+  }
+
+  .step .phone {
+    max-width: 200px;
+  }
+}
+
+/* Home: safety at a glance */
+.safety {
+  display: grid;
+  gap: var(--s48);
+}
+
+.facts {
+  display: grid;
+  gap: var(--s24);
+}
+
+.facts strong {
+  display: block;
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.facts span {
+  color: var(--sage);
+}
+
+.honest-line {
+  margin-top: var(--s32);
+  padding-top: var(--s24);
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+}
+
+.safety-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s12) var(--s32);
+  margin-top: var(--s24);
+}
+
+.safety-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.safety .phone {
+  width: 168px;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .safety {
+    grid-template-columns: 1fr 240px;
+    gap: var(--s64);
+    align-items: center;
+  }
+
+  .safety .phone {
+    width: 100%;
+  }
+}
+
+/* Waitlist block: the ids, classes and field name are what waitlist.js needs. */
+.waitlist-block h2 {
+  margin-bottom: var(--s12);
 }
 
 .waitlist-form {
-  margin-top: 28px;
+  max-width: 560px;
+  margin-top: var(--s32);
+}
+
+@media (min-width: 1024px) {
+  .waitlist-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s64);
+    align-items: end;
+  }
+
+  .waitlist-form {
+    margin-top: 0;
+  }
 }
 
 .waitlist-label {
   display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
+  margin-bottom: var(--s8);
+  font-size: var(--text-small);
+  font-weight: 600;
 }
 
 .waitlist-row {
-  display: flex;
-  gap: 10px;
-  max-width: 420px;
+  display: grid;
+  gap: var(--s12);
 }
 
 .waitlist-row input {
-  flex: 1;
-  min-width: 0;
-  font-family: inherit;
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--green-400);
+  width: 100%;
+  min-height: var(--s48);
+  padding: var(--s12) var(--s16);
+  border: 1px solid var(--line);
   border-radius: var(--radius-control);
-  padding: 12px 14px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
 }
 
 .waitlist-row input::placeholder {
-  color: var(--text-secondary);
+  color: var(--stone);
   opacity: 1;
 }
 
-.waitlist-row input:focus {
-  border-color: var(--green-700);
-}
-
-.waitlist-row button {
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--on-primary);
-  background: var(--green-700);
-  border: none;
-  border-radius: var(--radius-control);
-  padding: 12px 20px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.waitlist-row button:hover {
-  background: var(--ink);
-}
-
-.waitlist-row button:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
 .waitlist-status {
-  margin: 12px 0 0;
-  font-size: 13px;
-  color: var(--green-700);
+  margin-top: var(--s12);
+  color: var(--ink);
+  font-size: var(--text-small);
 }
 
-.waitlist-status.waitlist-status-error {
-  color: var(--danger);
+.waitlist-status-error {
+  color: #b3261e;
 }
 
-/* waitlist.js hides the input row and label after a successful signup via
-   the hidden attribute; the display rules above would otherwise override it. */
-.waitlist-form [hidden] {
-  display: none !important;
-}
-
-/* The real app screenshot in a plain device frame: dark bezel, soft shadow,
-   no overlays. The frame's corner radii depict hardware, so they sit outside
-   the 4/8/999px UI scale. */
-.hero-visual {
+.waitlist-status.is-success {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: var(--s12);
+  margin-top: 0;
+  font-size: var(--text-body);
+  font-weight: 700;
 }
 
-.device {
-  margin: 0;
-  width: 260px;
-  max-width: 100%;
-  padding: 8px;
-  background: var(--ink);
-  border-radius: 34px;
-  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.3);
+.waitlist-status.is-success svg {
+  flex: none;
+  color: var(--deep);
+  animation: check-in 0.3s var(--ease) both;
 }
 
-.device img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 26px;
-}
-
-.features {
-  margin-top: 72px;
-  padding-top: 48px;
-  border-top: 1px solid var(--green-100);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px 56px;
-}
-
-.feature {
-  max-width: 46ch;
-}
-
-.feature-mark {
-  display: block;
-  width: 32px;
-  height: 3px;
-  background: var(--green-700);
-  margin-bottom: 14px;
-}
-
-.feature h2 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--ink);
-  margin: 0 0 8px;
-}
-
-.feature p {
-  font-size: 14px;
-  line-height: 1.65;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-@media (max-width: 700px) {
-  .features {
-    grid-template-columns: 1fr;
-    gap: 32px;
+@keyframes check-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
-@media (max-width: 760px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
-
-  .device {
-    width: 220px;
-  }
-}
-
-@media (max-width: 480px) {
-  .page {
-    padding: 28px 20px 56px;
-  }
-
-  header.site-header {
-    flex-wrap: wrap;
-    row-gap: 10px;
-    margin-bottom: 36px;
-  }
-
-  nav.site-nav {
-    gap: 18px;
-  }
-
-  .hero {
-    gap: 32px;
-  }
-
-  .hero-copy h1 {
-    font-size: 30px;
-    max-width: none;
-  }
-
-  .hero-copy p.lede {
-    font-size: 17px;
-  }
-
-  .hero-copy p,
-  .hero-copy p.lede {
-    max-width: none;
-  }
-
+@media (min-width: 560px) {
   .waitlist-row {
-    flex-direction: column;
-    max-width: none;
-  }
-
-  .waitlist-row button {
-    width: 100%;
-  }
-
-  .device {
-    width: 200px;
+    grid-template-columns: 1fr auto;
   }
 }
 
-/* ---------- Legal / support document pages ---------- */
+/* Footer */
+.site-footer {
+  padding-block: var(--s48);
+  font-size: var(--text-small);
+}
 
+.footer-inner {
+  display: grid;
+  gap: var(--s16);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4) var(--s24);
+}
+
+.footer-links a,
+.footer-email {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  overflow-wrap: anywhere;
+}
+
+.footer-note {
+  color: var(--sage);
+}
+
+@media (min-width: 768px) {
+  .footer-inner {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .footer-note {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Document pages: Trust, Privacy, Terms, Support */
 .doc-title {
-  font-size: 30px;
-  font-weight: 600;
-  color: var(--ink);
-  margin: 0 0 14px;
+  font-size: var(--text-section);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.doc-heading {
+  margin-top: var(--s48);
+  margin-bottom: var(--s12);
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.doc-paragraph {
+  margin-bottom: var(--s16);
 }
 
 .draft-badge {
   display: inline-block;
-  color: var(--green-700);
-  background: var(--surface);
-  border: 1px solid var(--green-400);
+  margin-block: var(--s16);
+  padding: var(--s4) var(--s12);
+  border: 1px solid var(--line);
   border-radius: var(--radius-pill);
-  padding: 2px 10px;
-  font-size: 13px;
+  color: var(--deep);
+  font-size: var(--text-small);
   font-weight: 600;
-  margin-bottom: 32px;
-}
-
-.doc-heading {
-  font-family: "Space Grotesk", sans-serif;
-  color: var(--green-700);
-  font-size: 18px;
-  font-weight: 600;
-  margin: 32px 0 10px;
-}
-
-.doc-paragraph {
-  color: var(--ink);
-  font-size: 15px;
-  line-height: 1.7;
-  max-width: 68ch;
-  margin: 0 0 14px;
 }
 
 .support-card {
-  background: var(--surface);
-  border: 1px solid var(--green-400);
+  margin-top: var(--s24);
+  padding: var(--s24);
+  border: 1px solid var(--line);
   border-radius: var(--radius-card);
-  padding: 20px 24px;
-  margin-top: 12px;
-  display: inline-block;
+  background: var(--paper);
 }
 
 .support-email {
-  color: var(--green-700);
-  font-size: 17px;
   font-weight: 600;
-  text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
-.support-email:hover {
-  color: var(--ink);
-}
+/* Calm mode: nothing moves, everything still reads. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 
-footer.site-footer {
-  margin-top: 64px;
-  padding-top: 24px;
-  border-top: 1px solid var(--green-100);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  justify-content: space-between;
-}
+  .door:hover {
+    transform: none;
+  }
 
-footer.site-footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-}
-
-footer.site-footer nav a {
-  white-space: nowrap;
-}
-
-footer.site-footer a {
-  color: var(--text-secondary);
-  font-size: 13px;
-  text-decoration: none;
-}
-
-footer.site-footer a:hover {
-  color: var(--green-700);
-}
-
-.footer-note {
-  color: var(--text-secondary);
-  font-size: 12px;
+  .scroll-hint {
+    display: none;
+  }
 }

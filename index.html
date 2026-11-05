@@ -3,93 +3,182 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yardlancer</title>
-  <meta name="description" content="Yardlancer connects teens with local work, one gig at a time." />
-  <meta name="theme-color" content="#1F5C33" />
+  <title>Yardlancer: real jobs in your neighborhood</title>
+  <meta name="description" content="Neighbors post small jobs nearby. You pick the ones you want. Yardlancer is launching in Folsom, California." />
+  <meta name="theme-color" content="#0E1710" />
+  <link rel="canonical" href="https://yardlancer.com/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Yardlancer" />
-  <meta property="og:title" content="Yardlancer" />
-  <meta property="og:description" content="Yardlancer connects teens with local work, one gig at a time." />
+  <meta property="og:title" content="Yardlancer: real jobs in your neighborhood" />
+  <meta property="og:description" content="Neighbors post small jobs nearby. You pick the ones you want." />
   <meta property="og:url" content="https://yardlancer.com/" />
   <meta property="og:image" content="https://yardlancer.com/assets/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="waitlist.js" defer></script>
+  <meta name="twitter:title" content="Yardlancer: real jobs in your neighborhood" />
+  <meta name="twitter:description" content="Neighbors post small jobs nearby. You pick the ones you want." />
+  <meta name="twitter:image" content="https://yardlancer.com/assets/og-image.jpg" />
+  <link rel="preload" as="image" type="image/webp" href="/assets/hero/hero-phone.webp" media="(max-width: 767px)" fetchpriority="high" />
+  <link rel="preload" as="image" type="image/webp" imagesrcset="/assets/hero/hero-desktop-1280.webp 1280w, /assets/hero/hero-desktop.webp 1920w" imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/style.css" />
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/site.js" defer></script>
+  <script src="/waitlist.js" defer></script>
 </head>
-<body>
-  <div class="page">
-    <header class="site-header">
-      <a class="wordmark" href="./">Yard<span>lancer</span></a>
-      <nav class="site-nav">
-        <a href="trust/">Trust &amp; Safety</a>
-        <a href="privacy/">Privacy</a>
-        <a href="terms/">Terms</a>
-        <a href="support/">Support</a>
+<body data-hero>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header-inner wrap">
+      <a class="wordmark" href="/">Yardlancer</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/teens/">Teens</a>
+        <a href="/parents/">Parents</a>
+        <a href="/neighbors/">Neighbors</a>
+        <a href="/trust/">Safety</a>
       </nav>
-    </header>
+      <a class="button button-lawn header-cta" href="/#waitlist">Join the waitlist</a>
+      <button class="icon-button menu-button" type="button" aria-label="Open menu" aria-haspopup="dialog" aria-controls="menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
 
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <h1>Real jobs. Real neighborhood.</h1>
-          <p class="lede">Yardlancer connects teens with local work, one gig at a time.</p>
-          <p>Yard work, dog walking, tutoring, and more — matched with neighbors nearby. Built for teens looking to earn, with safety and parent-linking features for families along the way.</p>
+  <dialog class="menu" id="menu" aria-label="Menu">
+    <div class="menu-top">
+      <a class="wordmark" href="/">Yardlancer</a>
+      <button class="icon-button menu-close" type="button" aria-label="Close menu" autofocus>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <nav class="menu-links" aria-label="Menu links">
+      <a href="/teens/">Teens</a>
+      <a href="/parents/">Parents</a>
+      <a href="/neighbors/">Neighbors</a>
+      <a href="/trust/">Safety</a>
+    </nav>
+    <a class="button button-lawn" href="/#waitlist">Join the waitlist</a>
+  </dialog>
 
-          <form class="waitlist-form" id="waitlist-form">
-            <label class="waitlist-label" for="waitlist-email">Get notified when Yardlancer launches</label>
-            <div class="waitlist-row">
-              <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" required autocomplete="email" />
-              <button type="submit">Notify me</button>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="clip" data-clip="hero"><picture><source media="(max-width: 767px)" type="image/webp" srcset="/assets/hero/hero-phone.webp" /><source media="(max-width: 767px)" srcset="/assets/hero/hero-phone.jpg" /><source type="image/webp" srcset="/assets/hero/hero-desktop-1280.webp 1280w, /assets/hero/hero-desktop.webp 1920w" sizes="100vw" /><img src="/assets/hero/hero-desktop.jpg" width="1920" height="1080" alt="A quiet neighborhood street lined with palm trees at sunset." fetchpriority="high" /></picture></div>
+      <div class="hero-scrim"></div>
+      <div class="hero-content wrap">
+        <h1 id="hero-title">Real jobs.<br />Real neighborhood.</h1>
+        <p class="hero-line">Neighbors post small jobs nearby. You pick the ones you want.</p>
+        <div class="hero-actions">
+          <a class="button button-lawn" href="/#waitlist">Join the waitlist</a>
+          <a class="hero-link" href="#how">See how it works</a>
+        </div>
+      </div>
+      <svg class="scroll-hint" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </section>
+
+    <section class="section" aria-labelledby="doors-title">
+      <div class="wrap">
+        <h2 class="section-title" id="doors-title">Which one are you?</h2>
+        <div class="doors">
+          <a class="door door-teens" href="/teens/">
+            <h3>For teens</h3>
+            <p>Find paid gigs near home.</p>
+            <span class="door-go">See how it works for teens</span>
+            <div class="phone">
+              <picture><source type="image/webp" srcset="/assets/screens/map-480.webp 480w, /assets/screens/map-720.webp 720w" sizes="(min-width: 768px) 300px, 50vw" /><img src="/assets/screens/map-720.jpg" width="720" height="1558" loading="lazy" decoding="async" alt="The Yardlancer map with a gig pin showing $25. The street map behind it is blurred." /></picture>
             </div>
-            <p class="waitlist-status" id="waitlist-status" role="status" hidden></p>
-          </form>
+          </a>
+          <a class="door door-parents" href="/parents/">
+            <h3>For parents</h3>
+            <p>See how linking works, and what we don't do yet.</p>
+            <span class="door-go">See how it works for parents</span>
+            <div class="phone"><div class="phone-empty" role="img" aria-label="Screenshot coming soon">Screenshot coming<br />parent-consent.png</div></div>
+          </a>
+          <a class="door door-neighbors" href="/neighbors/">
+            <h3>For neighbors</h3>
+            <p>Post a small job for someone nearby to claim.</p>
+            <span class="door-go">See how it works for neighbors</span>
+            <div class="phone"><div class="phone-empty" role="img" aria-label="Screenshot coming soon">Screenshot coming<br />post-gig.png</div></div>
+          </a>
         </div>
+      </div>
+    </section>
 
-        <div class="hero-visual">
-          <figure class="device">
-            <img src="assets/welcome-screen.jpg" width="540" height="1169" decoding="async" alt="The Yardlancer app's welcome screen: the headline Real jobs. Real neighborhood. over video of a lawn being trimmed, with Find Gigs and Post a Gig buttons." />
-          </figure>
-        </div>
-      </section>
+    <section class="section" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <h2 class="section-title" id="how-title">A gig in four steps.</h2>
+        <ol class="steps">
+          <li class="step">
+            <div class="phone">
+              <picture><source type="image/webp" srcset="/assets/screens/map-480.webp 480w, /assets/screens/map-720.webp 720w" sizes="(min-width: 768px) 200px, 96px" /><img src="/assets/screens/map-720.jpg" width="720" height="1558" loading="lazy" decoding="async" alt="The Yardlancer map with a gig pin. The street map behind it is blurred." /></picture>
+            </div>
+            <div><h3>Find</h3><p>See gigs on the map.</p></div>
+          </li>
+          <li class="step">
+            <div class="phone"><div class="phone-empty" role="img" aria-label="Screenshot coming soon">gig-detail.png</div></div>
+            <div><h3>Claim</h3><p>Tap to claim one.</p></div>
+          </li>
+          <li class="step">
+            <div class="phone"><div class="phone-empty" role="img" aria-label="Screenshot coming soon">claim.png</div></div>
+            <div><h3>Do</h3><p>Show up and mark it complete.</p></div>
+          </li>
+          <li class="step">
+            <div class="phone"><div class="phone-empty" role="img" aria-label="Screenshot coming soon">rated.png</div></div>
+            <div><h3>Get rated</h3><p>The poster leaves a review.</p></div>
+          </li>
+        </ol>
+        <p class="steps-more"><a href="/teens/">See the full story</a></p>
+      </div>
+    </section>
 
-      <section class="features">
-        <div class="feature">
-          <span class="feature-mark"></span>
-          <h2>Hyperlocal gig discovery</h2>
-          <p>A map-based view of real jobs nearby, not a generic feed. Browse what's actually available in your own neighborhood.</p>
+    <section class="section on-dark" aria-labelledby="safety-title">
+      <div class="wrap safety">
+        <div>
+          <h2 class="section-title" id="safety-title">Safety at a glance.</h2>
+          <ul class="facts">
+            <li><strong>Parent linking</strong> <span>Required at 12 or under, optional at 13 to 17.</span></li>
+            <li><strong>Report and Block on every post and comment</strong> <span>We aim to review reports within 24 hours.</span></li>
+            <li><strong>No direct messages</strong> <span>That's deliberate.</span></li>
+          </ul>
+          <p class="honest-line">We don't run full background checks on adult posters yet.</p>
+          <div class="safety-links">
+            <a href="/parents/">How parent linking works</a>
+            <a href="/trust/">Read Trust &amp; Safety</a>
+          </div>
         </div>
-        <div class="feature">
-          <span class="feature-mark"></span>
-          <h2>Two ways to earn</h2>
-          <p>Quick Gigs ($15–35) cover the fast, everyday jobs — dog walking, yard cleanup, car washing, trash can valet, errands. Premium Services ($100–500) are bigger jobs like mobile detailing or window washing, posted by adult (18+) accounts.</p>
-        </div>
-        <div class="feature">
-          <span class="feature-mark"></span>
-          <h2>Built for trust, not just transactions</h2>
-          <p>Gig posters can rate each completed job, and ratings and a completed-gig count build up on a teen's profile, so reputation is earned over time — not just a name and a price.</p>
-        </div>
-        <div class="feature">
-          <span class="feature-mark"></span>
-          <h2>A community, not just a marketplace</h2>
-          <p>Group posts and a curated daily digest of nearby opportunities mean it's not just a static listings board — there's an actual local feed to check in on, not only a search you run when you need something.</p>
-        </div>
-      </section>
-    </main>
+        <div class="phone"><div class="phone-empty" role="img" aria-label="Screenshot coming soon">Screenshot coming<br />square.png</div></div>
+      </div>
+    </section>
 
-    <footer class="site-footer">
-      <nav>
-        <a href="trust/">Trust &amp; Safety</a>
-        <a href="privacy/">Privacy Policy</a>
-        <a href="terms/">Terms of Service</a>
-        <a href="support/">Support</a>
+    <section class="section waitlist-block" id="waitlist" aria-labelledby="waitlist-title">
+      <div class="wrap waitlist-inner">
+        <div>
+          <h2 id="waitlist-title">Be first on your street.</h2>
+          <p>We'll email you when Yardlancer launches.</p>
+        </div>
+        <form class="waitlist-form" id="waitlist-form">
+          <label class="waitlist-label" for="waitlist-email">Email address</label>
+          <div class="waitlist-row">
+            <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" required autocomplete="email" />
+            <button class="button button-deep" type="submit">Join the waitlist</button>
+          </div>
+          <p class="waitlist-status" id="waitlist-status" role="status" hidden></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer on-dark">
+    <div class="wrap footer-inner">
+      <nav class="footer-links" aria-label="Footer">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/support/">Support</a>
       </nav>
-      <span class="footer-note">&copy; 2026 Yardlancer</span>
-    </footer>
-  </div>
+      <a class="footer-email" href="mailto:kavinchandramoul.work@gmail.com">kavinchandramoul.work@gmail.com</a>
+      <p class="footer-note">&copy; 2026 Yardlancer. Video: Pexels.</p>
+    </div>
+  </footer>
 </body>
 </html>

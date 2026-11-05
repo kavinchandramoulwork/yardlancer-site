@@ -1,0 +1,221 @@
+// Shared script for every page: header, phone menu, videos, the App Store
+// switch and the waitlist success state. No library, no build step.
+(function () {
+  // After Apple approves, set this to the app's App Store URL. Every "Join the
+  // waitlist" becomes "Download on the App Store" and the form gives way to the
+  // badge. Add Apple's official badge as assets/app-store-badge.svg at the same
+  // time. Empty means the waitlist shows.
+  const APP_STORE_URL = '';
+
+  const WAITLIST_LINK = 'a[href="/#waitlist"]';
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function markCurrentPage() {
+    document.querySelectorAll('.site-nav a').forEach((link) => {
+      if (link.getAttribute('href') === window.location.pathname) {
+        link.setAttribute('aria-current', 'page');
+      }
+    });
+  }
+
+  function setUpHeroHeader() {
+    const header = document.querySelector('.site-header');
+    const hero = document.querySelector('.hero');
+    if (!header || !hero) return;
+
+    new IntersectionObserver(
+      ([entry]) => header.classList.toggle('is-solid', !entry.isIntersecting),
+      { rootMargin: '-52px 0px 0px 0px' }
+    ).observe(hero);
+
+    window.addEventListener('scroll', () => hero.classList.add('is-scrolled'), {
+      once: true,
+      passive: true,
+    });
+  }
+
+  function setUpMenu() {
+    const menu = document.getElementById('menu');
+    const openButton = document.querySelector('.menu-button');
+    if (!menu || !openButton) return;
+
+    let scrollY = 0;
+
+    const unlockPage = () => {
+      if (!document.body.classList.contains('is-locked')) return;
+      document.body.classList.remove('is-locked');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+    };
+
+    const closeMenu = () => {
+      if (menu.open) menu.close();
+      unlockPage();
+    };
+
+    openButton.addEventListener('click', () => {
+      scrollY = window.scrollY;
+      document.body.style.top = `-${scrollY}px`;
+      document.body.classList.add('is-locked');
+      menu.showModal();
+    });
+
+    // Esc closes a <dialog> by itself, so this catches that path too. The
+    // browser returns focus to the menu button either way.
+    menu.addEventListener('close', unlockPage);
+    menu.querySelector('.menu-close').addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+  }
+
+  // The header is the same on every page, so its waitlist link points at Home.
+  // A page with its own waitlist block keeps the visitor there instead.
+  function setUpWaitlistLinks() {
+    const block = document.getElementById('waitlist');
+    const email = document.getElementById('waitlist-email');
+    if (!block || !email) return;
+
+    document.querySelectorAll(WAITLIST_LINK).forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        block.scrollIntoView();
+        email.focus({ preventScroll: true });
+      });
+    });
+  }
+
+  // waitlist.js is left exactly as it is. On success it hides the row, so this
+  // watches for that and puts the check mark and our wording in its status line.
+  function setUpWaitlistSuccess() {
+    const row = document.querySelector('.waitlist-row');
+    const status = document.getElementById('waitlist-status');
+    if (!row || !status) return;
+
+    new MutationObserver(() => {
+      if (!row.hidden) return;
+      status.classList.add('is-success');
+      status.innerHTML =
+        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>' +
+        "You're on the list.";
+    }).observe(row, { attributes: true, attributeFilter: ['hidden'] });
+  }
+
+  function setUpVideos() {
+    const clips = [...document.querySelectorAll('[data-clip]')];
+    if (reduceMotion || clips.length === 0) return;
+
+    const isPhone = window.matchMedia('(max-width: 767px)');
+    const pageLoaded = new Promise((resolve) => {
+      if (document.readyState === 'complete') resolve();
+      else window.addEventListener('load', resolve, { once: true });
+    });
+
+    const icon = (path) =>
+      `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="${path}"/></svg>`;
+    const PAUSE_ICON = icon('M3 2h4v12H3zM9 2h4v12H9z');
+    const PLAY_ICON = icon('M4 2l10 6-10 6z');
+
+    const players = clips.map((clip) => {
+      const video = document.createElement('video');
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = 'none';
+      video.setAttribute('aria-hidden', 'true');
+      video.poster = clip.querySelector('img').currentSrc;
+      clip.append(video);
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'clip-toggle';
+      clip.append(button);
+
+      return { clip, video, button, userPaused: false, onScreen: false };
+    });
+
+    const showState = (player) => {
+      const isPaused = player.video.paused;
+      player.button.innerHTML = isPaused ? PLAY_ICON : PAUSE_ICON;
+      player.button.setAttribute('aria-label', isPaused ? 'Play video' : 'Pause video');
+    };
+
+    const play = (player) => {
+      players.filter((other) => other !== player).forEach((other) => other.video.pause());
+      // Autoplay can be refused, for example in Low Power Mode. The poster
+      // stays up and the button offers Play.
+      player.video.play().catch(() => showState(player));
+    };
+
+    const load = (player) => {
+      if (player.video.src) return;
+      const name = player.clip.dataset.clip;
+      player.video.src = `/assets/hero/${name}-${isPhone.matches ? 'phone' : 'desktop'}.mp4`;
+    };
+
+    const nearScreen = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const player = players.find((candidate) => candidate.clip === entry.target);
+          pageLoaded.then(() => {
+            load(player);
+            if (player.onScreen && !player.userPaused) play(player);
+          });
+          nearScreen.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '100% 0px' }
+    );
+
+    const onScreen = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const player = players.find((candidate) => candidate.clip === entry.target);
+          player.onScreen = entry.isIntersecting;
+          if (!entry.isIntersecting) player.video.pause();
+          else if (player.video.src && !player.userPaused) play(player);
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    players.forEach((player) => {
+      showState(player);
+      player.video.addEventListener('playing', () => player.clip.classList.add('is-playing'));
+      player.video.addEventListener('play', () => showState(player));
+      player.video.addEventListener('pause', () => showState(player));
+      player.button.addEventListener('click', () => {
+        load(player);
+        player.userPaused = !player.video.paused;
+        if (player.userPaused) player.video.pause();
+        else play(player);
+      });
+      nearScreen.observe(player.clip);
+      onScreen.observe(player.clip);
+    });
+  }
+
+  function applyAppStoreSwitch() {
+    if (!APP_STORE_URL) return;
+
+    document.querySelectorAll(WAITLIST_LINK).forEach((link) => {
+      link.href = APP_STORE_URL;
+      link.textContent = 'Download on the App Store';
+    });
+
+    const form = document.getElementById('waitlist-form');
+    if (!form) return;
+    const badge = document.createElement('a');
+    badge.href = APP_STORE_URL;
+    badge.innerHTML =
+      '<img src="/assets/app-store-badge.svg" width="160" height="53" alt="Download on the App Store">';
+    form.replaceWith(badge);
+  }
+
+  applyAppStoreSwitch();
+  markCurrentPage();
+  setUpHeroHeader();
+  setUpMenu();
+  setUpWaitlistLinks();
+  setUpWaitlistSuccess();
+  setUpVideos();
+})();
