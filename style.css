@@ -399,8 +399,9 @@ body[data-hero] .site-header {
   }
 }
 
-/* Video component: the poster is plain HTML, so it shows instantly and stays
-   as the whole picture with reduced motion. The script adds the video on top. */
+/* Video component: the poster is plain HTML, so it shows instantly. With reduced
+   motion it stays up until the visitor presses play. The script adds the video
+   and its button on top. */
 .clip {
   position: relative;
   overflow: hidden;
@@ -425,6 +426,7 @@ body[data-hero] .site-header {
   opacity: 1;
 }
 
+/* A dark fill with a light edge, so it reads on any picture behind it. */
 .clip-toggle {
   --focus: var(--lawn);
   position: absolute;
@@ -437,11 +439,16 @@ body[data-hero] .site-header {
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 0;
+  border: 2px solid var(--mist);
   border-radius: var(--radius-control);
   background: var(--evergreen);
   color: var(--mist);
   cursor: pointer;
+}
+
+/* The dark gap keeps the green focus ring readable on a pale picture. */
+.clip-toggle:focus-visible {
+  box-shadow: 0 0 0 2px var(--evergreen);
 }
 
 /* Phone frame: a plain CSS outline for real screenshots. Radii are percentages

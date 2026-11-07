@@ -101,7 +101,7 @@
 
   function setUpVideos() {
     const clips = [...document.querySelectorAll('[data-clip]')];
-    if (reduceMotion || clips.length === 0) return;
+    if (clips.length === 0) return;
 
     const isPhone = window.matchMedia('(max-width: 767px)');
     const pageLoaded = new Promise((resolve) => {
@@ -129,7 +129,9 @@
       button.className = 'clip-toggle';
       clip.append(button);
 
-      return { clip, video, button, userPaused: false, onScreen: false };
+      // With reduced motion only the button starts a video, so each one begins
+      // as if the visitor had paused it.
+      return { clip, video, button, userPaused: reduceMotion, onScreen: false };
     });
 
     const showState = (player) => {
@@ -171,8 +173,12 @@
         entries.forEach((entry) => {
           const player = players.find((candidate) => candidate.clip === entry.target);
           player.onScreen = entry.isIntersecting;
-          if (!entry.isIntersecting) player.video.pause();
-          else if (player.video.src && !player.userPaused) play(player);
+          if (!entry.isIntersecting) {
+            player.video.pause();
+            if (reduceMotion) player.userPaused = true;
+          } else if (player.video.src && !player.userPaused) {
+            play(player);
+          }
         });
       },
       { threshold: 0.25 }
@@ -189,7 +195,8 @@
         if (player.userPaused) player.video.pause();
         else play(player);
       });
-      nearScreen.observe(player.clip);
+      // With reduced motion the file isn't fetched until the button asks for it.
+      if (!reduceMotion) nearScreen.observe(player.clip);
       onScreen.observe(player.clip);
     });
   }
