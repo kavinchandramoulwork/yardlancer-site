@@ -594,6 +594,14 @@ body[data-hero] .site-header {
   }
 }
 
+/* "neighborhood." is one long word. Below 360px it wouldn't fit the line at the
+   usual size, and it would push the whole page sideways. */
+@media (max-width: 359px) {
+  .hero h1 {
+    font-size: 2.375rem;
+  }
+}
+
 /* Home: three doors */
 .doors {
   display: flex;
@@ -648,9 +656,12 @@ body[data-hero] .site-header {
   outline-offset: -4px;
 }
 
+/* Padding is fixed here: a percentage would resolve against the card, not the
+   phone, and the extra frame would crop the sides of the screen. */
 .door .phone {
   position: absolute;
   width: 62%;
+  padding: 6px;
   box-shadow: 0 var(--s8) var(--s32) rgb(14 23 16 / 22%);
 }
 
@@ -675,19 +686,32 @@ body[data-hero] .site-header {
   color: var(--sage);
 }
 
+/* These two phones are anchored by their own height, so the card cuts the screen
+   at the same row at any width: on Teens in the photo below the words, on
+   Neighbors in the gap between two rows of the form. */
 .door-teens .phone {
-  left: 19%;
-  top: 176px;
+  left: 0;
+  right: 0;
+  top: 100%;
+  max-width: 200px;
+  margin-inline: auto;
+  transform: translateY(-75%);
 }
 
+/* The whole phone stays inside this card, so no word on the Family screen is cut.
+   Its width is capped so the card's bottom edge falls below the screen's last
+   button, in the part of the screen that's empty. */
 .door-parents .phone {
-  right: -8%;
+  right: var(--s24);
   top: 208px;
+  max-width: 200px;
 }
 
 .door-neighbors .phone {
-  left: -8%;
-  top: 208px;
+  left: var(--s24);
+  top: 100%;
+  max-width: 200px;
+  transform: translateY(-64.6%);
 }
 
 @media (min-width: 768px) {
@@ -715,19 +739,19 @@ body[data-hero] .site-header {
     right: var(--s64);
     top: var(--s32);
     width: 240px;
-  }
-
-  .door-parents .phone,
-  .door-neighbors .phone {
-    top: 224px;
+    max-width: none;
+    transform: none;
   }
 
   .door-parents .phone {
+    top: 224px;
     right: var(--s32);
+    width: 180px;
   }
 
   .door-neighbors .phone {
     left: var(--s32);
+    width: 180px;
   }
 }
 
@@ -782,7 +806,8 @@ body[data-hero] .site-header {
 
   .door-neighbors .phone {
     left: var(--s32);
-    top: -96px;
+    top: 20px;
+    transform: none;
   }
 }
 
@@ -796,7 +821,7 @@ body[data-hero] .site-header {
   }
 }
 
-/* Home: a gig in four steps. A real sequence, so the numbers stay. */
+/* Home: a gig in three steps. A real sequence, so the numbers stay. */
 .steps {
   display: grid;
   gap: var(--s24);
@@ -835,9 +860,14 @@ body[data-hero] .site-header {
   font-weight: 600;
 }
 
+.steps-also {
+  margin-top: var(--s8);
+  color: var(--stone);
+}
+
 @media (min-width: 768px) {
   .steps {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--s32);
   }
 
@@ -853,11 +883,6 @@ body[data-hero] .site-header {
 }
 
 /* Home: safety at a glance */
-.safety {
-  display: grid;
-  gap: var(--s48);
-}
-
 .facts {
   display: grid;
   gap: var(--s24);
@@ -892,23 +917,6 @@ body[data-hero] .site-header {
   align-items: center;
   min-height: 44px;
   font-weight: 600;
-}
-
-.safety .phone {
-  width: 168px;
-  margin-inline: auto;
-}
-
-@media (min-width: 768px) {
-  .safety {
-    grid-template-columns: 1fr 240px;
-    gap: var(--s64);
-    align-items: center;
-  }
-
-  .safety .phone {
-    width: 100%;
-  }
 }
 
 /* Waitlist block: the ids, classes and field name are what waitlist.js needs. */
@@ -1157,21 +1165,6 @@ body[data-hero] .site-header {
   .split-phone {
     width: 272px;
   }
-}
-
-.phone-pair {
-  display: flex;
-  justify-content: center;
-  gap: var(--s16);
-}
-
-.phone-pair .phone {
-  flex: 0 1 208px;
-  min-width: 0;
-}
-
-.phone-pair .phone:last-child {
-  margin-top: var(--s48);
 }
 
 /* Keeps lines short without moving the block off the page's left edge. */
@@ -1430,16 +1423,6 @@ body[data-hero] .site-header {
 }
 
 /* Parents: questions */
-.draft-note {
-  display: inline-block;
-  margin-bottom: var(--s24);
-  padding: var(--s4) var(--s12);
-  border: 1px solid var(--stone);
-  border-radius: var(--radius-pill);
-  color: var(--stone);
-  font-size: var(--text-small);
-}
-
 .question {
   border-top: 1px solid var(--line);
 }
