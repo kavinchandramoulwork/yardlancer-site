@@ -1,13 +1,6 @@
-// Shared script for every page: header, phone menu, videos, the App Store
-// switch and the waitlist success state. No library, no build step.
+// Shared script for every page: header, phone menu, videos and the waitlist
+// success state. No library, no build step.
 (function () {
-  // After Apple approves, set this to the app's App Store URL. Every "Join the
-  // waitlist" becomes "Download on the App Store" and the form gives way to the
-  // badge. Add Apple's official badge as assets/app-store-badge.svg at the same
-  // time. Empty means the waitlist shows.
-  const APP_STORE_URL = '';
-
-  const WAITLIST_LINK = 'a[href="/#waitlist"]';
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function markCurrentPage() {
@@ -65,22 +58,6 @@
     menu.addEventListener('close', unlockPage);
     menu.querySelector('.menu-close').addEventListener('click', closeMenu);
     menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-  }
-
-  // The header is the same on every page, so its waitlist link points at Home.
-  // A page with its own waitlist block keeps the visitor there instead.
-  function setUpWaitlistLinks() {
-    const block = document.getElementById('waitlist');
-    const email = document.getElementById('waitlist-email');
-    if (!block || !email) return;
-
-    document.querySelectorAll(WAITLIST_LINK).forEach((link) => {
-      link.addEventListener('click', (event) => {
-        event.preventDefault();
-        block.scrollIntoView();
-        email.focus({ preventScroll: true });
-      });
-    });
   }
 
   // waitlist.js is left exactly as it is. On success it hides the row, so this
@@ -292,28 +269,9 @@
     });
   }
 
-  function applyAppStoreSwitch() {
-    if (!APP_STORE_URL) return;
-
-    document.querySelectorAll(WAITLIST_LINK).forEach((link) => {
-      link.href = APP_STORE_URL;
-      link.textContent = 'Download on the App Store';
-    });
-
-    const form = document.getElementById('waitlist-form');
-    if (!form) return;
-    const badge = document.createElement('a');
-    badge.href = APP_STORE_URL;
-    badge.innerHTML =
-      '<img src="/assets/app-store-badge.svg" width="160" height="53" alt="Download on the App Store">';
-    form.replaceWith(badge);
-  }
-
-  applyAppStoreSwitch();
   markCurrentPage();
   setUpHeroHeader();
   setUpMenu();
-  setUpWaitlistLinks();
   setUpWaitlistSuccess();
   setUpVideos();
   setUpEntrances();
